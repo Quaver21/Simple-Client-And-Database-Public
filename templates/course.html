@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block url %}
+<li class="nav-item">
+    <a class="nav-link" href="{{url_for('list_courses')}}">Courses</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{url_for('create_course')}}">Create</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{url_for('edit_course', course_id=course['_id'])}}">Edit</a>
+</li>
+{% endblock %}
+
+{% block content %}
+    <h2>{% block title %} {{ course['_title'] }} ({{ course['_id'] }})  {% endblock %}</h2>
+    <a href="{{ url_for('instructor', instructor_id=instructor['_id']) }}">
+        <span class="badge badge-primary">{{ instructor['_name'] }}</span>
+    </a>
+    <br>
+    <h4>Students:</h4>
+    {% for student in students %}
+        <h5>
+        <a href="{{ url_for('student', student_id=student['_id']) }}">
+            {{ student['_name'] }}
+        </a>
+        {{ student['_grade'] }}
+        </h5>
+    {% endfor %}
+{% endblock %}

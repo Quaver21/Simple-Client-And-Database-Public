@@ -1,0 +1,32 @@
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS courses;
+DROP TABLE IF EXISTS instructors;
+DROP TABLE IF EXISTS student_courses;
+
+CREATE TABLE students (
+    _id INTEGER PRIMARY KEY AUTOINCREMENT,
+    _name TEXT NOT NULL,
+    _credits INTEGER NOT NULL
+);
+
+CREATE TABLE courses (
+    _id INTEGER PRIMARY KEY AUTOINCREMENT,
+    _title TEXT NOT NULL,
+    _instructor_id INTEGER NOT NULL,
+    FOREIGN KEY (_instructor_id) REFERENCES instructors (_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE instructors (
+    _id INTEGER PRIMARY KEY AUTOINCREMENT,
+    _name TEXT NOT NULL,
+    _department TEXT NOT NULL
+);
+
+CREATE TABLE student_courses (
+    _id INTEGER PRIMARY KEY AUTOINCREMENT,
+    _grade INTEGER NOT NULL,
+    _student_id INTEGER NOT NULL,
+    _course_id INTEGER NOT NULL,
+    FOREIGN KEY (_student_id) REFERENCES students (_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (_course_id) REFERENCES courses (_id) ON UPDATE CASCADE ON DELETE CASCADE
+);

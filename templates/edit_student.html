@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block url %}
+<li class="nav-item">
+    <a class="nav-link" href="{{url_for('list_students')}}">Students</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1>{% block title %} Edit "{{ student['_name'] }}" {% endblock %}</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" placeholder="Student Name"
+               class="form-control"
+               value="{{ request.form['name'] or student['_name'] }}">
+        </input>
+    </div>
+
+    <div class="form-group">
+        <label for="credits">Credits</label>
+        <textarea name="credits" placeholder="Credits"
+                  class="form-control">{{ request.form['credits'] or student['_credits'] }}</textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+<hr>
+<form action="{{ url_for('delete_student', student_id=student['_id']) }}" method="POST">
+    <input type="submit" value="Delete Student"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('Are you sure you want to delete this student?')">
+</form>
+<hr>
+
+{% for course in courses %}
+<p>{{course['_title']}}
+<form action="{{ url_for('delete_student_course', student_id=student['_id'], course_id=course['_id']) }}" method="POST">
+    <input type="submit" value='Remove course'
+            class="btn btn-danger btn-sm">
+</form>
+</p>
+<br>
+{% endfor %}
+
+{% for course in otherCourses %}
+<p>{{course['_title']}}
+<form action="{{ url_for('add_student_course', student_id=student['_id'], course_id=course['_id']) }}" method="GET">
+    <input type="submit" value='Add course'
+            class="btn btn-primary btn-sm">
+</form>
+</p>
+<br>
+{% endfor %}
+
+{% endblock %}
